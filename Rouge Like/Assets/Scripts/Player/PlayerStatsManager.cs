@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class PlayerStatsManager : CharacterStats
 {
+    [SerializeField]
+    private float myTimeBtwRegenHeal;
+    private float myRegenTime;
+
     private void OnEnable()
     {
         HealPickup.OnMaxHealCollected += AddMaxHealthStat;
         AttackSpeedPickup.OnAttackSpeedCollected += AddAttackSpeedStat;
+        BaseRegenPickup.OnBaseRegenCollecter += AddBaseRegenStat;
     }
 
     private void OnDisable()
     {
         HealPickup.OnMaxHealCollected -= AddMaxHealthStat;
         AttackSpeedPickup.OnAttackSpeedCollected -= AddAttackSpeedStat;
+        BaseRegenPickup.OnBaseRegenCollecter -= AddBaseRegenStat;
+    }
+
+    public void Update()
+    {
+        HealWithRegen();
     }
 
     public void TakeDamage(int aDamage)
@@ -22,6 +33,21 @@ public class PlayerStatsManager : CharacterStats
         if(myCurrentHealth <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    void HealWithRegen()
+    {
+        myRegenTime -= Time.deltaTime;
+        if(myRegenTime <= 0)
+        {
+            myCurrentHealth += myBaseHealthRegen.GetValue();
+            myRegenTime = myTimeBtwRegenHeal;
+        }
+
+        if (myCurrentHealth > myMaxHealth.GetValue())
+        {
+            myCurrentHealth = myMaxHealth.GetValue();
         }
     }
 
@@ -35,6 +61,11 @@ public class PlayerStatsManager : CharacterStats
     private void AddAttackSpeedStat(int aAttackSpeedAmount)
     {
         myAttackSpeed.AddModifier(aAttackSpeedAmount);
+    }
+
+    private void AddBaseRegenStat(int aAmount)
+    {
+        myBaseHealthRegen.AddModifier(aAmount);
     }
 
     private void AddMoveSpeedStat()

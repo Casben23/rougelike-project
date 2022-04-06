@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
+    AudioSource myShotSound;
     PlayerStatsManager myPlayerStatsManager;
-    public float myTimeBtwShoots = 1000f;
+    public float myTimeBtwShoots = 5f;
     public GameObject myBullet;
     private float myShotAngle;
     Vector3 myShotDir;
@@ -16,6 +17,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
         timeBtwShoots = myTimeBtwShoots;
+        myShotSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,7 +39,8 @@ public class PlayerWeapon : MonoBehaviour
             }
         }
 
-        timeBtwShoots -= myPlayerStatsManager.myAttackSpeed.GetValue() * Time.deltaTime;
+        float finalAttackSpeed = 0.1f * (myPlayerStatsManager.myAttackSpeed.GetValue() * 0.3f) * Time.deltaTime;
+        timeBtwShoots -= finalAttackSpeed * 0.3f;
     }
 
     void ShootWithController()
@@ -45,6 +48,7 @@ public class PlayerWeapon : MonoBehaviour
         CalculateJoystickShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, -myShotAngle + 90)));
         timeBtwShoots = myTimeBtwShoots;
+        myShotSound.Play();
     }
 
     void ShootWithMouse()
@@ -52,6 +56,7 @@ public class PlayerWeapon : MonoBehaviour
         CalculateMosueShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
         timeBtwShoots = myTimeBtwShoots;
+        myShotSound.Play();
     }
 
     void CalculateJoystickShotDirection()

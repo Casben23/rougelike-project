@@ -26,13 +26,12 @@ public class EnemyManager : MonoBehaviour
 
     public Transform[] mySpawnPoints;
     public GameObject[] myEnemyTypes;
+    public GameObject[] myItemTypes;
     public float myTimeBtwSpawns;
     private float timeBtwSpawns;
     public int myAmountOfEnemySpawns;
     int randomEnemyType;
     int randomSpawnPoint;
-    [SerializeField]
-    public GameObject Heal;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,10 +60,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnItem(Vector3 aPos)
     {
-        int rand = Random.Range(1, 5);
-        if(rand == 1)
-        {
-            Instantiate(Heal, aPos, Quaternion.identity);
-        }
+        int rand = Random.Range(0, myItemTypes.Length);
+        Instantiate(myItemTypes[rand], aPos, Quaternion.identity);
     }
 }

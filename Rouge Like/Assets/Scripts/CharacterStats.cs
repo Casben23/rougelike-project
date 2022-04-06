@@ -10,9 +10,16 @@ public class CharacterStats : MonoBehaviour
     public Stat myAttackSpeed;
     public Stat myMoveSpeed;
     public Stat myProjectileSpeed;
-
+    public Stat myBaseHealthRegen;
     private void Awake()
     {
         myCurrentHealth = myMaxHealth.GetValue();
     }
+
+    private void Update()
+    {
+        
+    }
+    
+     
 }

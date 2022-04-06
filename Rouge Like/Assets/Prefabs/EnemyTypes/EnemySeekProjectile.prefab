@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3366167725375321575}
   - component: {fileID: 3366167725375321568}
   - component: {fileID: 3366167725375321569}
+  - component: {fileID: 463075117401525700}
   m_Layer: 0
   m_Name: EnemySeekProjectile
   m_TagString: EnemyDamageZone
@@ -99,6 +100,19 @@ MonoBehaviour:
   myDamage: 30
   myPlayer: {fileID: 0}
   myTimeAlive: 3
+--- !u!114 &463075117401525700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3366167725375321570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302cb5a30484dd04da2d799010f292c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myDamage: 40
 --- !u!1 &3366167725587540772
 GameObject:
   m_ObjectHideFlags: 0

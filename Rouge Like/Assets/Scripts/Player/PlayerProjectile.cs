@@ -47,7 +47,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if(collision.gameObject.tag == ("Enemy"))
         {
-            //collision.GetComponent<EnemyHealth>()?.TakeDamage();
+            collision.GetComponent<EnemyHealth>()?.TakeDamage(myPlayerStatsManager.myDamage.GetValue());
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == ("Environment"))

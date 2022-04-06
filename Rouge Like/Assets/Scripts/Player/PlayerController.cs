@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerStatsManager myPlayerStatsManager;
 
+    private AudioListener myAudioListener;
+
     private Rigidbody2D myRb;
     Animator myPlayerAnimator;
 
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
         myPlayerStatsManager = GetComponent<PlayerStatsManager>();
         myRb = this.GetComponent<Rigidbody2D>();
         myPlayerAnimator = this.GetComponent<Animator>();
+        myAudioListener.
     }
 
     void Update()
