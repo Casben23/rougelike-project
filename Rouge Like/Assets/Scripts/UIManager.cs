@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         myPlayer = GameObject.FindGameObjectWithTag("Player");
-        myUIHealth = (int)myPlayer.GetComponent<PlayerController>().GetHealth();
+        //myUIHealth = (int)myPlayer.GetComponent<PlayerController>().GetHealth();
         myHealthText.text = myUIHealth.ToString();
         myScore = 0;
     }
@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        myHealthText.text = myPlayer.GetComponent<PlayerController>().GetHealth().ToString();
+        //myHealthText.text = myPlayer.GetComponent<PlayerController>().GetHealth().ToString();
         myScoreText.text = myScore.ToString();
     }
 }

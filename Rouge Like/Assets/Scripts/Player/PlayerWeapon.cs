@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    public float myTimeBtwShoots = 0.8f;
+    PlayerStatsManager myPlayerStatsManager;
+    public float myTimeBtwShoots = 1000f;
     public GameObject myBullet;
     private float myShotAngle;
     Vector3 myShotDir;
     public Transform myFirePoint;
     private float timeBtwShoots;
 
-    //STATS!
-    [SerializeField]
-    float myDamage;
-    [SerializeField]
-    float myAttackSpeed;
-    [SerializeField]
-    float myBulletSpeed;
-
     void Start()
     {
+        myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
         timeBtwShoots = myTimeBtwShoots;
     }
 
@@ -31,24 +25,46 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (timeBtwShoots <= 0)
             {
-                Shoot();
+                ShootWithController();
             }
         }
 
-        timeBtwShoots -= Time.deltaTime;
+        if(Input.GetAxis("Fire1") != 0)
+        {
+            if(timeBtwShoots <= 0)
+            {
+                ShootWithMouse();
+            }
+        }
+
+        timeBtwShoots -= myPlayerStatsManager.myAttackSpeed.GetValue() * Time.deltaTime;
     }
 
-    void Shoot()
+    void ShootWithController()
     {
-        CalculateShotDirection();
+        CalculateJoystickShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, -myShotAngle + 90)));
-        bullet.GetComponent<PlayerProjectile>().SetBullet(myDamage, myBulletSpeed);
         timeBtwShoots = myTimeBtwShoots;
     }
 
-    void CalculateShotDirection()
+    void ShootWithMouse()
+    {
+        CalculateMosueShotDirection();
+        GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
+        timeBtwShoots = myTimeBtwShoots;
+    }
+
+    void CalculateJoystickShotDirection()
     {
         myShotAngle = Mathf.Atan2(Input.GetAxis("RightJoyY"), Input.GetAxis("RightJoyX")) * Mathf.Rad2Deg;
+        myShotDir = Quaternion.AngleAxis(myShotAngle, Vector3.forward) * Vector3.right;
+    }
+
+    void CalculateMosueShotDirection()
+    {
+        Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 mouseDir = (Input.mousePosition - playerPos).normalized;
+        myShotAngle = Mathf.Atan2(mouseDir.x, -mouseDir.y) * Mathf.Rad2Deg;
         myShotDir = Quaternion.AngleAxis(myShotAngle, Vector3.forward) * Vector3.right;
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float mySpeed = 50;
-    public float myHealth = 200;
+    public PlayerStatsManager myPlayerStatsManager;
 
     private Rigidbody2D myRb;
     Animator myPlayerAnimator;
@@ -14,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        myPlayerStatsManager = GetComponent<PlayerStatsManager>();
         myRb = this.GetComponent<Rigidbody2D>();
         myPlayerAnimator = this.GetComponent<Animator>();
     }
@@ -40,31 +40,11 @@ public class PlayerController : MonoBehaviour
             myPlayerAnimator.SetBool("Running", true);
         }
         else { myPlayerAnimator.SetBool("Running", false); }
-
-        if(myHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void FixedUpdate()
     {
-        myRb.MovePosition(myRb.position + movement * mySpeed * Time.fixedDeltaTime);
-    }
-    
-    public void TakeDamage(float aDmg)
-    {
-        myHealth -= aDmg;
+        myRb.MovePosition(myRb.position + movement * myPlayerStatsManager.myMoveSpeed.GetValue() * Time.fixedDeltaTime);
     }
 
-    public void Heal(float aHealAmount)
-    {
-        float temp = (myHealth) / aHealAmount;
-        myHealth += temp;
-    }
-
-    public float GetHealth()
-    {
-        return myHealth;
-    }
 }

@@ -4,41 +4,54 @@ using UnityEngine;
 
 public class PlayerProjectile : MonoBehaviour
 {
+    PlayerStatsManager myPlayerStatsManager;
     Rigidbody2D myRb;
-    public float mySpeed;
     private float myShotAngle;
     Vector3 myShootDir;
-    public float myDamage;
-
-    public void SetBullet(float aDmg, float aSpeed)
+    
+    private void Awake()
     {
-        myDamage = aDmg;
-        mySpeed = aSpeed;
+        myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
+        myRb = this.GetComponent<Rigidbody2D>();
+        SetBullet();
+    }
+
+    public void SetBullet()
+    {
+        if (Input.GetKey(KeyCode.Mouse0)) { SetShootAngleWithMouse(); }
+        if (Input.GetAxis("RightJoyY") != 0 || Input.GetAxis("RightJoyX") != 0) { SetShootAngleWithJoystick(); }
+
         Shoot();
+    }
+
+    void SetShootAngleWithMouse()
+    {
+        Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 mouseDir = (Input.mousePosition - playerPos).normalized;
+        myShotAngle = Mathf.Atan2(mouseDir.x, mouseDir.y) * Mathf.Rad2Deg;
+        myShootDir = Quaternion.AngleAxis(-myShotAngle + 90, Vector3.forward) * Vector3.right;
+    }
+    void SetShootAngleWithJoystick()
+    {
+        myShotAngle = Mathf.Atan2(Input.GetAxis("RightJoyY"), Input.GetAxis("RightJoyX")) * Mathf.Rad2Deg;
+        myShootDir = Quaternion.AngleAxis(-myShotAngle, Vector3.forward) * Vector3.right;
     }
 
     void Shoot()
     {
-        myShotAngle = Mathf.Atan2(Input.GetAxis("RightJoyY"), Input.GetAxis("RightJoyX")) * Mathf.Rad2Deg;
-        myShootDir = Quaternion.AngleAxis(-myShotAngle, Vector3.forward) * Vector3.right;
-        myRb = this.GetComponent<Rigidbody2D>();
-        myRb.AddForce(myShootDir * mySpeed, ForceMode2D.Impulse);
+        myRb.AddForce(myShootDir * myPlayerStatsManager.myProjectileSpeed.GetValue(), ForceMode2D.Impulse);
         Destroy(gameObject, 2);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == ("Enemy") || collision.gameObject.tag == ("Environment"))
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == ("Enemy") || collision.gameObject.tag == ("Environment"))
+        if(collision.gameObject.tag == ("Enemy"))
         {
-            collision.gameObject.SendMessage("TakeDamage", myDamage, SendMessageOptions.DontRequireReceiver);
+            //collision.GetComponent<EnemyHealth>()?.TakeDamage();
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == ("Environment"))
+        {
             Destroy(gameObject);
         }
     }

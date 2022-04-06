@@ -5,11 +5,11 @@ using System;
 
 public class HealPickup : MonoBehaviour, ICollectible
 {
-    public static event Action OnMaxHealCollected; 
+    public static event Action<int> OnMaxHealCollected;
     public void Collect()
     {
         Debug.Log("Max Heal Collected!");
         Destroy(gameObject);
-        OnMaxHealCollected?.Invoke();
+        OnMaxHealCollected?.Invoke(20);
     }
 }

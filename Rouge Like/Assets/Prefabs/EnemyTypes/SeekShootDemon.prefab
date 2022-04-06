@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 4912121016528197193}
   - component: {fileID: 4912121016528197198}
   - component: {fileID: 4912121016528197199}
+  - component: {fileID: -1296564034698828618}
   m_Layer: 0
   m_Name: SeekShootDemon
   m_TagString: Enemy
@@ -200,3 +201,16 @@ MonoBehaviour:
   myProjectile: {fileID: 3366167725375321570, guid: 6ccc8b229a3a6294babc360739b094c0, type: 3}
   myFirePoint: {fileID: 4912121016329393707}
   myTimeBtwAttacks: 10
+--- !u!114 &-1296564034698828618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4912121016528197196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9775edf56439c2348adca907ae5b16d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMaxHealth: 100
