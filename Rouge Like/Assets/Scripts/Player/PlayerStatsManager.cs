@@ -27,6 +27,11 @@ public class PlayerStatsManager : CharacterStats
         HealWithRegen();
     }
 
+    public int GetHealth()
+    {
+        return myCurrentHealth;
+    }
+
     public void TakeDamage(int aDamage)
     {
         myCurrentHealth -= aDamage;
@@ -34,6 +39,7 @@ public class PlayerStatsManager : CharacterStats
         {
             Destroy(gameObject);
         }
+        AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerHit, transform.position, false, true);
     }
 
     void HealWithRegen()

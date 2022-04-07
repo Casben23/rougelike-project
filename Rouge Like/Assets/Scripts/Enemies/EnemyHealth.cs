@@ -24,12 +24,14 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float aDamage)
     {
+        AudioManager.Instance.PlaySound(AudioManager.Sound.EnemyHit, transform.position, false, true);
         myCurrentHealth -= aDamage;
     }
 
     void Die()
     {
         EnemyManager.Instance.SpawnItem(transform.position);
+        EnemyManager.Instance.OnEnemyDeath();
         Destroy(gameObject);
     }
 }

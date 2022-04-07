@@ -48,7 +48,7 @@ public class PlayerWeapon : MonoBehaviour
         CalculateJoystickShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, -myShotAngle + 90)));
         timeBtwShoots = myTimeBtwShoots;
-        myShotSound.Play();
+        AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
     }
 
     void ShootWithMouse()
@@ -56,7 +56,7 @@ public class PlayerWeapon : MonoBehaviour
         CalculateMosueShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
         timeBtwShoots = myTimeBtwShoots;
-        myShotSound.Play();
+        AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
     }
 
     void CalculateJoystickShotDirection()

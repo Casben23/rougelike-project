@@ -24,43 +24,100 @@ public class EnemyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    [SerializeField]
+    public EnemyType[] myEnemyTypes;
     public Transform[] mySpawnPoints;
-    public GameObject[] myEnemyTypes;
     public GameObject[] myItemTypes;
-    public float myTimeBtwSpawns;
+    public int myNumberOfEnemiesAlive;
+    private int myCurrentWave = 0;
+    public int myWaveValue;
+    public float myTimeBtwSpawns = 100;
     private float timeBtwSpawns;
-    public int myAmountOfEnemySpawns;
-    int randomEnemyType;
-    int randomSpawnPoint;
+    bool isSpawningEnemies = false;
+    int myLowestCostingEnemy;
+
     // Start is called before the first frame update
     void Start()
     {
-        timeBtwSpawns = myTimeBtwSpawns;
-        randomEnemyType = Random.Range(0, 0);
-        randomSpawnPoint = Random.Range(0, mySpawnPoints.Length);
+        myNumberOfEnemiesAlive = 0;
+        myLowestCostingEnemy = GetLowestCostingEnemies();
+        StartNewWave();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(timeBtwSpawns <= 0)
+        Debug.Log(timeBtwSpawns);
+
+        if(myNumberOfEnemiesAlive == 0 && isSpawningEnemies == false)
         {
-            for (int i = 0; i < myAmountOfEnemySpawns; i++)
-            {
-                Instantiate(myEnemyTypes[randomEnemyType], mySpawnPoints[randomSpawnPoint].position, Quaternion.identity);
-                randomEnemyType = Random.Range(0, 2);
-                Debug.Log(randomEnemyType);
-                randomSpawnPoint = Random.Range(0, mySpawnPoints.Length);
-            }
-            timeBtwSpawns = myTimeBtwSpawns;
-            myAmountOfEnemySpawns += 1;
+            StartNewWave();
         }
-        timeBtwSpawns -= Time.deltaTime;
+
+        if (isSpawningEnemies)
+        {
+            SpawnEnemies();
+        }
+
+    }
+
+    void StartNewWave()
+    {
+        isSpawningEnemies = true;
+        myCurrentWave++;
+        myWaveValue = myCurrentWave * 20;
+    }
+
+    void SpawnEnemies()
+    {
+        while(myWaveValue >= myLowestCostingEnemy)
+        {
+            if(timeBtwSpawns <= 0)
+            {
+                int randEnemy = Random.Range(0, myEnemyTypes.Length);
+                int randSpawn = Random.Range(0, mySpawnPoints.Length);
+                if(myEnemyTypes[randEnemy].myCost <= myWaveValue && myEnemyTypes[randEnemy].mySpawnAfterWave <= myCurrentWave)
+                {
+                    Instantiate(myEnemyTypes[randEnemy].myEnemy, mySpawnPoints[randSpawn].position, Quaternion.identity);
+                    myNumberOfEnemiesAlive++;
+                    myWaveValue -= myEnemyTypes[randEnemy].myCost;
+                    timeBtwSpawns = myTimeBtwSpawns;
+                }
+            }
+            timeBtwSpawns -= Time.fixedDeltaTime;
+        }
+        isSpawningEnemies = false;
+    }
+
+    public void OnEnemyDeath()
+    {
+        myNumberOfEnemiesAlive--;
+    }
+
+    int GetLowestCostingEnemies()
+    {
+        int lowestCostingEnemy = myEnemyTypes[0].myCost;
+        for (int i = 0; i < myEnemyTypes.Length; i++)
+        {
+            if(lowestCostingEnemy > myEnemyTypes[i].myCost)
+            {
+                lowestCostingEnemy = myEnemyTypes[i].myCost;
+            }
+        }
+        return lowestCostingEnemy;
     }
 
     public void SpawnItem(Vector3 aPos)
     {
         int rand = Random.Range(0, myItemTypes.Length);
         Instantiate(myItemTypes[rand], aPos, Quaternion.identity);
+    }
+
+    [System.Serializable]
+    public class EnemyType
+    {
+        public GameObject myEnemy;
+        public int mySpawnAfterWave;
+        public int myCost;
     }
 }

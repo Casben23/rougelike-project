@@ -7,11 +7,11 @@ public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
 
-    private float myScore;
+    private PlayerStatsManager myPlayerStats;
     private int myUIHealth;
     private GameObject myPlayer;
     public TMP_Text myHealthText;
-    public TMP_Text myScoreText;
+    public TMP_Text myEnemiesAliveText;
 
 
     public static UIManager Instance
@@ -30,25 +30,14 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        myPlayer = GameObject.FindGameObjectWithTag("Player");
-        //myUIHealth = (int)myPlayer.GetComponent<PlayerController>().GetHealth();
-        myHealthText.text = myUIHealth.ToString();
-        myScore = 0;
-    }
-
-    public void AddScore()
-    {
-        myScore += 1;
+        myPlayerStats = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        myHealthText.text = myPlayerStats.GetHealth().ToString() + "/" + myPlayerStats.myMaxHealth.GetValue().ToString();
         //myHealthText.text = myPlayer.GetComponent<PlayerController>().GetHealth().ToString();
-        myScoreText.text = myScore.ToString();
+        myEnemiesAliveText.text = EnemyManager.Instance.myNumberOfEnemiesAlive.ToString();
     }
 }
