@@ -20289,7 +20289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myCurrentHealth: 0
   myMaxHealth:
-    baseValue: 600
+    baseValue: 1
   myDamage:
     baseValue: 8
   myAttackSpeed:
@@ -23503,15 +23503,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySoundAudioClips:
-  - sound: 0
+  - name: Player Attack
+    sound: 0
     audioClip: {fileID: 8300000, guid: 34a1070a609a8ef41a8c8b510cc17ad4, type: 3}
-  - sound: 1
+  - name: Player Move
+    sound: 1
     audioClip: {fileID: 8300000, guid: 13109193a274d0743a29286ffcdb770e, type: 3}
-  - sound: 2
+  - name: 
+    sound: 2
     audioClip: {fileID: 8300000, guid: 2d3f762f0b35c364f98a28ce47dfdbfc, type: 3}
-  - sound: 3
+  - name: 
+    sound: 3
     audioClip: {fileID: 8300000, guid: 2eef785a9fd140840b333eed09f274c3, type: 3}
-  - sound: 6
+  - name: 
+    sound: 6
     audioClip: {fileID: 8300000, guid: 9e500738611da8b4d8313920a43606e1, type: 3}
 --- !u!4 &1654747632
 Transform:

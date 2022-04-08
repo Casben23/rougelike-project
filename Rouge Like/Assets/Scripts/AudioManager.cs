@@ -41,6 +41,7 @@ public class AudioManager : MonoBehaviour
     [System.Serializable]
     public class SoundAudioClip
     {
+        public string name;
         public Sound sound;
         public AudioClip audioClip;
     }
