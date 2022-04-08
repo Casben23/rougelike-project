@@ -14,4 +14,12 @@ public class EnemyDamage : MonoBehaviour
             collision.gameObject.GetComponent<PlayerStatsManager>().TakeDamage(myDamage);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            collision.gameObject.GetComponent<PlayerStatsManager>().TakeDamage(myDamage);
+        }
+    }
 }

@@ -20289,7 +20289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myCurrentHealth: 0
   myMaxHealth:
-    baseValue: 1
+    baseValue: 100
   myDamage:
     baseValue: 8
   myAttackSpeed:
