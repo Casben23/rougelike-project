@@ -17230,6 +17230,9 @@ MonoBehaviour:
   myTimeBtwShoots: 0.1
   myBullet: {fileID: 2503871488278061447, guid: 9e4c74c9643511d4fb54cd371035210b, type: 3}
   myFirePoint: {fileID: 151498075}
+  myChargeValue: 0
+  myIsCharging: 0
+  myMaxChargeValue: 100
 --- !u!1 &293185444
 GameObject:
   m_ObjectHideFlags: 3
@@ -20289,7 +20292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myCurrentHealth: 0
   myMaxHealth:
-    baseValue: 1
+    baseValue: 100
   myDamage:
     baseValue: 8
   myAttackSpeed:
@@ -23307,7 +23310,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1604184359
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class PlayerProjectile : MonoBehaviour
 
     public void SetBullet()
     {
-        if (Input.GetKey(KeyCode.Mouse0)) { SetShootAngleWithMouse(); }
+        if (Input.GetKeyUp(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { SetShootAngleWithMouse(); }
         if (Input.GetAxis("RightJoyY") != 0 || Input.GetAxis("RightJoyX") != 0) { SetShootAngleWithJoystick(); }
 
         Shoot();
@@ -50,13 +50,13 @@ public class PlayerProjectile : MonoBehaviour
         {
             collision.GetComponent<EnemyHealth>()?.TakeDamage(myPlayerStatsManager.myDamage.GetValue());
             GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
-            Destroy(particle, 0.5f);
+            Destroy(particle, 3f);
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == ("Environment"))
         {
             GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
-            Destroy(particle, 0.5f);
+            Destroy(particle, 3f);
             Destroy(gameObject);
         }
     }
