@@ -8,7 +8,8 @@ public class PlayerProjectile : MonoBehaviour
     Rigidbody2D myRb;
     private float myShotAngle;
     Vector3 myShootDir;
-    
+    public GameObject myHitEffect;
+
     private void Awake()
     {
         myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
@@ -48,10 +49,14 @@ public class PlayerProjectile : MonoBehaviour
         if(collision.gameObject.tag == ("Enemy"))
         {
             collision.GetComponent<EnemyHealth>()?.TakeDamage(myPlayerStatsManager.myDamage.GetValue());
+            GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
+            Destroy(particle, 0.5f);
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == ("Environment"))
         {
+            GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
+            Destroy(particle, 0.5f);
             Destroy(gameObject);
         }
     }

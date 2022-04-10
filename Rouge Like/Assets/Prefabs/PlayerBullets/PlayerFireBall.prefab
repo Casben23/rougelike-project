@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deee96ad696a76d45b3c3a157d087479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mySpeed: 17
-  myDamage: 1
+  myHitEffect: {fileID: 6399285661672371663, guid: 792a6327f62927b4688cecc1ed4e550f, type: 3}
 --- !u!50 &2503871488278061441
 Rigidbody2D:
   serializedVersion: 4
