@@ -47,7 +47,6 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(timeBtwSpawns);
 
         if(myNumberOfEnemiesAlive == 0 && isSpawningEnemies == false)
         {

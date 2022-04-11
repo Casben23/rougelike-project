@@ -11,6 +11,8 @@ public class CharacterStats : MonoBehaviour
     public Stat myMoveSpeed;
     public Stat myProjectileSpeed;
     public Stat myBaseHealthRegen;
+    public Stat myChargeSpeed;
+    public Stat myChargingMoveSpeed;
     private void Awake()
     {
         myCurrentHealth = myMaxHealth.GetValue();

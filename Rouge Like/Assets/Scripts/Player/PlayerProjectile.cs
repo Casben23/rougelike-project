@@ -9,18 +9,19 @@ public class PlayerProjectile : MonoBehaviour
     private float myShotAngle;
     Vector3 myShootDir;
     public GameObject myHitEffect;
+    float myFinalChargeDamage;
 
     private void Awake()
     {
         myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
         myRb = this.GetComponent<Rigidbody2D>();
-        SetBullet();
     }
 
-    public void SetBullet()
+    public void SetBullet(float aChargeValue)
     {
         if (Input.GetKeyUp(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { SetShootAngleWithMouse(); }
         if (Input.GetAxis("RightJoyY") != 0 || Input.GetAxis("RightJoyX") != 0) { SetShootAngleWithJoystick(); }
+        myFinalChargeDamage = myPlayerStatsManager.myDamage.GetValue() + aChargeValue * 0.1f;
 
         Shoot();
     }
@@ -48,7 +49,8 @@ public class PlayerProjectile : MonoBehaviour
     {
         if(collision.gameObject.tag == ("Enemy"))
         {
-            collision.GetComponent<EnemyHealth>()?.TakeDamage(myPlayerStatsManager.myDamage.GetValue());
+            collision.GetComponent<EnemyHealth>()?.TakeDamage(myFinalChargeDamage);
+            Debug.Log(myFinalChargeDamage);
             GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
             Destroy(particle, 3f);
             Destroy(gameObject);

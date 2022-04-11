@@ -1,25 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField]
     private float myMaxHealth;
 
+    public Canvas myHealthBarCanvas;
+    public Transform myHealthBarPosition;
+
+    private Slider myHealthBar;
     SpriteRenderer myRenderer;
     float myCurrentHealth;
 
+    private Canvas healthCanvas;
     bool myIsHit;
     void Start()
     {
+        healthCanvas = Instantiate(myHealthBarCanvas, myHealthBarPosition.position, Quaternion.identity);
+        myHealthBar = healthCanvas.GetComponentInChildren<Slider>();
         myRenderer = GetComponent<SpriteRenderer>();
         myCurrentHealth = myMaxHealth;
+        myHealthBar.maxValue = myMaxHealth;
+        myHealthBar.minValue = 0;
     }
 
     void Update()
     {
-
+        myHealthBar.transform.position = myHealthBarPosition.position;
+        myHealthBar.value = myCurrentHealth;
         if(myCurrentHealth <= 0)
         {
             Die();
@@ -41,6 +51,7 @@ public class EnemyHealth : MonoBehaviour
     {
         EnemyManager.Instance.SpawnItem(transform.position);
         EnemyManager.Instance.OnEnemyDeath();
+        Destroy(healthCanvas);
         Destroy(gameObject);
     }
 
