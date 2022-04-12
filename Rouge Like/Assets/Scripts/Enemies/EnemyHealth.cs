@@ -11,6 +11,8 @@ public class EnemyHealth : MonoBehaviour
     public float myMaxStunTime;
     private bool myIsStunned;
 
+    public GameObject myDeathEffect;
+
     public Canvas myHealthBarCanvas;
     public Transform myHealthBarPosition;
 
@@ -71,6 +73,9 @@ public class EnemyHealth : MonoBehaviour
     {
         EnemyManager.Instance.SpawnItem(transform.position);
         EnemyManager.Instance.OnEnemyDeath();
+        GameObject effect = Instantiate(myDeathEffect, transform.position, Quaternion.identity);
+        AudioManager.Instance.PlaySound(AudioManager.Sound.EnemyDeath, transform.position, false, true);
+        Destroy(effect, 1);
         Destroy(healthCanvas);
         Destroy(gameObject);
     }

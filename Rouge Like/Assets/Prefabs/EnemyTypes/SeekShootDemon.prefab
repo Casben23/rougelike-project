@@ -216,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMaxHealth: 100
   myMaxStunTime: 0.2
+  myDeathEffect: {fileID: 3270344159893454007, guid: b79d599eea89dc44e9341393441ef82d, type: 3}
   myHealthBarCanvas: {fileID: 6646052462745299263, guid: 46f5d5b0ad7a50844810d8f92c4784a8, type: 3}
   myHealthBarPosition: {fileID: 6892821826973673606}
 --- !u!1 &6738719932729364521

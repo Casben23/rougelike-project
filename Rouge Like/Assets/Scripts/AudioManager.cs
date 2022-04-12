@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
         PlayerHit,
         EnemyHit,
         EnemyAttack,
+        EnemyDeath,
         EnemyMove,
         ItemPickup
     }
