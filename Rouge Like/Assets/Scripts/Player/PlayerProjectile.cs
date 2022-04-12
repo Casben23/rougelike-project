@@ -17,11 +17,21 @@ public class PlayerProjectile : MonoBehaviour
         myRb = this.GetComponent<Rigidbody2D>();
     }
 
-    public void SetBullet(float aChargeValue)
+    public void SetBullet(float aChargeValue, bool isCrit)
     {
         if (Input.GetKeyUp(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { SetShootAngleWithMouse(); }
         if (Input.GetAxis("RightJoyY") != 0 || Input.GetAxis("RightJoyX") != 0) { SetShootAngleWithJoystick(); }
-        myFinalChargeDamage = myPlayerStatsManager.myDamage.GetValue() + aChargeValue * 0.1f;
+
+        if (isCrit)
+        {
+            myFinalChargeDamage = myPlayerStatsManager.myDamage.GetValue() + aChargeValue * 0.1f;
+            myFinalChargeDamage *= 2;
+            Debug.Log("CRIT!");
+        }
+        else
+        {
+            myFinalChargeDamage = myPlayerStatsManager.myDamage.GetValue() + aChargeValue * 0.1f;
+        }
 
         Shoot();
     }
@@ -49,7 +59,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if(collision.gameObject.tag == ("Enemy"))
         {
-            collision.GetComponent<EnemyHealth>()?.TakeDamage(myFinalChargeDamage);
+            collision.GetComponent<EnemyHealth>()?.TakeDamage(myFinalChargeDamage, myRb.velocity.normalized * myPlayerStatsManager.myKnockBackForce.GetValue());
             Debug.Log(myFinalChargeDamage);
             GameObject particle = Instantiate(myHitEffect, transform.position, Quaternion.identity);
             Destroy(particle, 3f);

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4912121016329393707}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4912121016528197198}
   - component: {fileID: 4912121016528197199}
   - component: {fileID: -1296564034698828618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeekShootDemon
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMaxHealth: 100
+  myMaxStunTime: 0.2
   myHealthBarCanvas: {fileID: 6646052462745299263, guid: 46f5d5b0ad7a50844810d8f92c4784a8, type: 3}
   myHealthBarPosition: {fileID: 6892821826973673606}
 --- !u!1 &6738719932729364521
@@ -226,7 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6892821826973673606}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

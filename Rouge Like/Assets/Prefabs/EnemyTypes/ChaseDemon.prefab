@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2265089741484566278}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8095040246982415697}
   - component: {fileID: -8153275252117258637}
   - component: {fileID: -8659407134070923069}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ChaseDemon
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMaxHealth: 30
+  myMaxStunTime: 0.2
   myHealthBarCanvas: {fileID: 6646052462745299263, guid: 46f5d5b0ad7a50844810d8f92c4784a8, type: 3}
   myHealthBarPosition: {fileID: 2265089741484566278}
 --- !u!114 &-8659407134070923069

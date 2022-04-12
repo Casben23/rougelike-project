@@ -79,7 +79,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         CalculateJoystickShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, -myShotAngle + 90)));
-        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue);
+        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue,  RollCritChance());
         timeBtwShoots = myTimeBtwShoots;
         AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
     }
@@ -88,7 +88,7 @@ public class PlayerWeapon : MonoBehaviour
         myIsCharging = false;
         CalculateMouseShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
-        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue);
+        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue, RollCritChance());
         myChargeValue = 0;
         timeBtwShoots = myTimeBtwShoots;
         AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
@@ -103,6 +103,18 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
 
+    bool RollCritChance()
+    {
+        int random = Random.Range(1,20);
+        if(random <= myPlayerStatsManager.myCritChance.GetValue() || myChargeValue >= myMaxChargeValue)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     void CalculateJoystickShotDirection()
     {

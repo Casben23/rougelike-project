@@ -14,6 +14,7 @@ public class SeekShootDemon : MonoBehaviour
     public Transform myFirePoint;
     Animator myAnimator;
     float timeBtwAttacks;
+    private EnemyHealth myEnemyHealth;
     public float myTimeBtwAttacks;
     // Start is called before the first frame update
 
@@ -21,6 +22,7 @@ public class SeekShootDemon : MonoBehaviour
     
     void Start()
     {
+        myEnemyHealth = GetComponent<EnemyHealth>();
         timeBtwAttacks = myTimeBtwAttacks;
         myAnimator = this.GetComponent<Animator>();
         mySpeed = myMaxSpeed;
@@ -63,7 +65,13 @@ public class SeekShootDemon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        myRb.MovePosition(myRb.position + moveDir * mySpeed * Time.fixedDeltaTime);   
+        if (myEnemyHealth != null)
+        {
+            if (!myEnemyHealth.isStunned())
+            {
+                myRb.MovePosition(myRb.position + moveDir * mySpeed * Time.fixedDeltaTime);
+            }
+        }
     }
 
     public void Shoot()

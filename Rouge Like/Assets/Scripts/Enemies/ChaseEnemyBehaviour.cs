@@ -11,11 +11,13 @@ public class ChaseEnemyBehaviour : MonoBehaviour
     Rigidbody2D myRb;
     Vector2 moveDir;
     public float myDamage = 5;
+    private EnemyHealth myEnemyHealth;
 
     private IEnumerator couroutine;
     // Start is called before the first frame update
     void Start()
     {
+        myEnemyHealth = GetComponent<EnemyHealth>();
         mySpeed = myMaxSpeed;
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
@@ -48,14 +50,14 @@ public class ChaseEnemyBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
-        myRb.MovePosition(myRb.position + moveDir * mySpeed * Time.fixedDeltaTime);
+        if(myEnemyHealth != null)
+        {
+            if (!myEnemyHealth.isStunned())
+            {
+                myRb.MovePosition(myRb.position + moveDir * mySpeed * Time.fixedDeltaTime);
+            }
+        }
     }
-    
-    public void TakeDamage(float aDmg)
-    {
-        myHealth -= aDmg;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == ("Player"))
