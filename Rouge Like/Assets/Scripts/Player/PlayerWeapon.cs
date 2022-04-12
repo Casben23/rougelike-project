@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    AudioSource myShotSound;
     PlayerStatsManager myPlayerStatsManager;
     public float myTimeBtwShoots = 5f;
     public GameObject myBullet;
@@ -12,12 +12,24 @@ public class PlayerWeapon : MonoBehaviour
     Vector3 myShotDir;
     public Transform myFirePoint;
     private float timeBtwShoots;
+    public Transform myChargePivot;
 
+    public Image myChargeImage;
+
+    [SerializeField]
+    private float myChargeValue;
+    [SerializeField]
+    bool myIsCharging;
+
+    public float myMaxChargeValue;
+    
     void Start()
     {
+        myChargeImage.enabled = false;
+        myIsCharging = false;
+        myChargeValue = 0;
         myPlayerStatsManager = FindObjectOfType<PlayerController>().GetComponent<PlayerStatsManager>();
         timeBtwShoots = myTimeBtwShoots;
-        myShotSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,33 +43,66 @@ public class PlayerWeapon : MonoBehaviour
             }
         }
 
-        if(Input.GetAxis("Fire1") != 0)
+        if(Input.GetAxis("Fire1") != 0 && timeBtwShoots <= 0)
         {
-            if(timeBtwShoots <= 0)
-            {
-                ShootWithMouse();
-            }
+            myIsCharging = true;
+            ChargeShot();
         }
 
+        if(myIsCharging && Input.GetAxis("Fire1") == 0)
+        {
+            myIsCharging = false;
+            ShootWithMouse();
+        }
+
+        if (myIsCharging)
+        {
+            myChargeImage.enabled = true;
+            myChargeImage.fillAmount = myChargeValue * 0.01f;
+        }
+        else
+        {
+            myChargeImage.enabled = false;
+        }
+
+        myChargeImage.transform.position = myChargePivot.position;
         float finalAttackSpeed = 0.1f * (myPlayerStatsManager.myAttackSpeed.GetValue() * 0.3f) * Time.deltaTime;
         timeBtwShoots -= finalAttackSpeed * 0.3f;
+    }
+
+    public bool IsCharging()
+    {
+        return myIsCharging;
     }
 
     void ShootWithController()
     {
         CalculateJoystickShotDirection();
         GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, -myShotAngle + 90)));
+        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue);
+        timeBtwShoots = myTimeBtwShoots;
+        AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
+    }
+    void ShootWithMouse()
+    {
+        myIsCharging = false;
+        CalculateMouseShotDirection();
+        GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
+        bullet.GetComponent<PlayerProjectile>().SetBullet(myChargeValue);
+        myChargeValue = 0;
         timeBtwShoots = myTimeBtwShoots;
         AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
     }
 
-    void ShootWithMouse()
+    void ChargeShot()
     {
-        CalculateMosueShotDirection();
-        GameObject bullet = Instantiate(myBullet, myFirePoint.transform.position, Quaternion.Euler(new Vector3(0, 0, myShotAngle)));
-        timeBtwShoots = myTimeBtwShoots;
-        AudioManager.Instance.PlaySound(AudioManager.Sound.PlayerAttack, transform.position, false, false);
+        myChargeValue += 5 * myPlayerStatsManager.myAttackSpeed.GetValue() * Time.deltaTime;
+        if(myChargeValue >= myMaxChargeValue)
+        {
+            ShootWithMouse();
+        }
     }
+
 
     void CalculateJoystickShotDirection()
     {
@@ -65,7 +110,7 @@ public class PlayerWeapon : MonoBehaviour
         myShotDir = Quaternion.AngleAxis(myShotAngle, Vector3.forward) * Vector3.right;
     }
 
-    void CalculateMosueShotDirection()
+    void CalculateMouseShotDirection()
     {
         Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector2 mouseDir = (Input.mousePosition - playerPos).normalized;

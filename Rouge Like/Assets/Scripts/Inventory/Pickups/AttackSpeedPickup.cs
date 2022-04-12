@@ -9,6 +9,6 @@ public class AttackSpeedPickup : MonoBehaviour, ICollectible
     {
         Debug.Log("Attack Speed Collected!");
         Destroy(gameObject);
-        OnAttackSpeedCollected?.Invoke(5);
+        OnAttackSpeedCollected?.Invoke(1);
     }
 }

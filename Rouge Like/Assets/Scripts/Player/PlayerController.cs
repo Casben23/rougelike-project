@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerStatsManager myPlayerStatsManager;
 
+    private PlayerWeapon myWeapon;
     private Rigidbody2D myRb;
     Animator myPlayerAnimator;
 
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        myWeapon = GetComponentInChildren<PlayerWeapon>();
         myPlayerStatsManager = GetComponent<PlayerStatsManager>();
         myRb = this.GetComponent<Rigidbody2D>();
         myPlayerAnimator = this.GetComponent<Animator>();
@@ -44,7 +46,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        myRb.MovePosition(myRb.position + movement * myPlayerStatsManager.myMoveSpeed.GetValue() * Time.fixedDeltaTime);
+        if (myWeapon.IsCharging())
+        {
+            myRb.MovePosition(myRb.position + movement * myPlayerStatsManager.myChargingMoveSpeed.GetValue() * Time.fixedDeltaTime);
+        }
+        else
+        {
+            myRb.MovePosition(myRb.position + movement * myPlayerStatsManager.myMoveSpeed.GetValue() * Time.fixedDeltaTime);
+        }
+
     }
 
     public void PlayWalkSound()

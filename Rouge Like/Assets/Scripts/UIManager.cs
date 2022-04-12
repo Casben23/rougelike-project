@@ -38,6 +38,6 @@ public class UIManager : MonoBehaviour
     {
         myHealthText.text = myPlayerStats.GetHealth().ToString() + "/" + myPlayerStats.myMaxHealth.GetValue().ToString();
         //myHealthText.text = myPlayer.GetComponent<PlayerController>().GetHealth().ToString();
-        myEnemiesAliveText.text = EnemyManager.Instance.myNumberOfEnemiesAlive.ToString();
+        myEnemiesAliveText.text = EnemyManager.Instance?.myNumberOfEnemiesAlive.ToString();
     }
 }
